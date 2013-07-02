@@ -1,6 +1,8 @@
 package com.nearsoft.codejam.t9spelling;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -8,23 +10,23 @@ import static org.junit.Assert.assertEquals;
 
 public class T9SpellingTest {
 
-    private static final String BASE_PATH = "/home/ilopez/ril/docs/google-code-jam/store-credit/src/test/resources/com/nearsoft/codejam/";
+
 
     @Test
     public void testLargeInput() throws Exception {
 
-        String largeInput = FileUtils.readFileToString(new File(BASE_PATH + "t9spelling/C-large-practice.in"));
+        String largeInput = getClass().getResource("C-large-practice.in").getPath();
         T9Spelling sc = new T9Spelling();
-        System.out.println(sc.execute(largeInput));
+        System.out.println(sc.execute(new FileReader(largeInput)));
     }
 
     @Test
     public void tesSmallInput() throws Exception {
 
-        String smallInput = FileUtils.readFileToString(new File(BASE_PATH + "t9spelling/C-small-practice.in"));
+        String smallInput = getClass().getResource("C-small-practice.in").getPath();
         T9Spelling sc = new T9Spelling();
 
-        System.out.println(sc.execute(smallInput));
+        System.out.println(sc.execute(new FileReader(smallInput)));
     }
 
     @Test
@@ -40,7 +42,7 @@ public class T9SpellingTest {
             "Case #4: 4433555 555666096667775553\n";
 
         T9Spelling spelling = new T9Spelling();
-        assertEquals(expectedOutput,spelling.execute(sampleInput));
+        assertEquals(expectedOutput,spelling.execute(new StringReader(sampleInput)));
     }
 
     @Test

@@ -1,8 +1,11 @@
 package com.nearsoft.codejam.t9spelling;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
 public class T9Spelling {
     static Map<String, String> keypadMapping = new HashMap<String, String>();
@@ -32,16 +35,29 @@ public class T9Spelling {
         }
     }
 
-    public String execute(String input) {
-        Scanner scanner = new Scanner(input);
-        int totalCases = Integer.parseInt(scanner.nextLine());
-        int i = 1;
+    public String execute(Reader reader) throws InvalidArgumentException {
+
+        int totalCases = 0;
+        int testCasesCounter = 0;
         StringBuilder sb = new StringBuilder();
-        while (i <= totalCases && scanner.hasNextLine()) {
-            sb.append("Case #").append(i).append(": ");
-            sb.append(convert(scanner.nextLine())).append("\n");
-            i++;
+        try (BufferedReader br = new BufferedReader(reader)) {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                if (totalCases == 0 && testCasesCounter == 0) {
+                    totalCases = Integer.parseInt(sCurrentLine);
+                } else {
+                    testCasesCounter++;
+                    sb.append("Case #").append(testCasesCounter).append(": ");
+                    sb.append(convert(sCurrentLine)).append("\n");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if (testCasesCounter != totalCases) {
+            throw new InvalidArgumentException(new String[]{"totalCases", String.valueOf(totalCases), "found", String.valueOf(testCasesCounter)});
+        }
+
         return sb.toString();
     }
 
