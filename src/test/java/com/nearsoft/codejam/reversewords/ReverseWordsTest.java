@@ -1,6 +1,8 @@
 package com.nearsoft.codejam.reversewords;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -8,27 +10,23 @@ import static org.junit.Assert.assertEquals;
 
 public class ReverseWordsTest {
 
-    private static final String BASE_PATH = "/home/ilopez/ril/docs/google-code-jam/store-credit/src/test/resources/com/nearsoft/codejam/";
-
 
 
     @Test
     public void testSmall() throws Exception {
-        String smallInput = FileUtils.readFileToString(
-            new File(BASE_PATH + "reversewords/B-small-practice.in"));
+        String smallInput = getClass().getResource("B-small-practice.in").getPath();
 
         ReverseWords rw = new ReverseWords();
 
-        System.out.println(rw.execute(smallInput));
+        System.out.println(rw.execute(new FileReader(smallInput)));
     }
     @Test
     public void testLarge() throws Exception {
-        String smallInput = FileUtils.readFileToString(
-            new File(BASE_PATH + "reversewords/B-large-practice.in"));
+        String smallInput = getClass().getResource("B-large-practice.in").getPath();
 
         ReverseWords rw = new ReverseWords();
 
-        System.out.println(rw.execute(smallInput));
+        System.out.println(rw.execute(new FileReader(smallInput)));
     }
 
 
@@ -43,7 +41,7 @@ public class ReverseWordsTest {
         String expectedOutput = "Case #1: test a is this\n" +
             "Case #2: foobar\n" +
             "Case #3: base your all\n";
-        String output = rw.execute(input);
+        String output = rw.execute(new StringReader(input));
         assertEquals(expectedOutput, output);
     }
 }
