@@ -1,14 +1,13 @@
 package com.nearsoft.codejam.storecredit;
 
-import java.io.File;
+import java.io.FileReader;
+import java.io.StringReader;
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class StoreCreditTest {
-    private static final String BASE_PATH = "/home/ilopez/ril/docs/google-code-jam/store-credit/src/test/resources/com/nearsoft/codejam/";
 
     @Test
     public void testInputs() throws InvalidArgumentException {
@@ -27,28 +26,29 @@ public class StoreCreditTest {
             "Case #3: 4 5\n";
 
         StoreCredit sc = new StoreCredit();
-        assertEquals(expectedOutput, sc.execute(sample));
+        assertEquals(expectedOutput, sc.execute(new StringReader(sample)));
     }
 
     @Test
     public void testLargeInput() throws Exception {
-        String largeInput = FileUtils.readFileToString(new File(BASE_PATH + "scorecredit/A-large-practice.in"));
+        String largeInput = getClass().getResource("A-large-practice.in").getPath();
         StoreCredit sc = new StoreCredit();
-        System.out.println(sc.execute(largeInput));
+
+        System.out.println(sc.execute(new FileReader(largeInput)));
     }
 
     @Test
     public void tesSmallInput() throws Exception {
-        String smallInput = FileUtils.readFileToString(new File(BASE_PATH + "scorecredit/A-small-practice.in"));
+        String smallInput = getClass().getResource("A-small-practice.in").getPath();
         StoreCredit sc = new StoreCredit();
-        System.out.println(sc.execute(smallInput));
+        System.out.println(sc.execute(new FileReader(smallInput)));
     }
 
     @Test
     public void testSolver() throws Exception {
         StoreCredit sc = new StoreCredit();
-        assertEquals("2 3", sc.solve(new InputStoreCredit(100, 3, "5 75 25")));
-        assertEquals("1 4", sc.solve(new InputStoreCredit(200, 7, "150 24 79 50 88 345 3")));
-        assertEquals("4 5", sc.solve(new InputStoreCredit(8, 8, "2 1 9 4 4 56 90 3")));
+        assertEquals("2 3", sc.solve(100, 3, "5 75 25"));
+        assertEquals("1 4", sc.solve(200, 7, "150 24 79 50 88 345 3"));
+        assertEquals("4 5", sc.solve(8, 8, "2 1 9 4 4 56 90 3"));
     }
 }
