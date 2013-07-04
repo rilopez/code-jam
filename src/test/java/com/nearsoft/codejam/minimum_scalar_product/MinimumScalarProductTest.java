@@ -2,6 +2,7 @@ package com.nearsoft.codejam.minimum_scalar_product;
 
 import java.io.FileReader;
 import java.io.StringReader;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -52,8 +53,22 @@ public class MinimumScalarProductTest {
     @Test
     public void calculateScalarProduct() {
         MinimumScalarProduct msp = new MinimumScalarProduct();
-        assertEquals(5, msp.calculateScalarProduct(msp.parseVector("-2 4 1"),msp.parseVector("1 3 -5")));
-        assertEquals(34, msp.calculateScalarProduct(msp.parseVector("12 4 2"),msp.parseVector("2 1 3")));
+        List<Integer> firstVectorPermutation1 = msp.parseVector("-2 4 1");
+        int scalarProduct1 = 0;
+        for (int i1 = 0; i1 < firstVectorPermutation1.size(); i1++) {
+            Integer xi1 = firstVectorPermutation1.get(i1);
+            Integer yi1 = msp.parseVector("1 3 -5").get(i1);
+            scalarProduct1 += xi1 * yi1;
+        }
+        assertEquals(5, scalarProduct1);
+        List<Integer> firstVectorPermutation = msp.parseVector("12 4 2");
+        int scalarProduct = 0;
+        for (int i = 0; i < firstVectorPermutation.size(); i++) {
+            Integer xi = firstVectorPermutation.get(i);
+            Integer yi = msp.parseVector("2 1 3").get(i);
+            scalarProduct += xi * yi;
+        }
+        assertEquals(34, scalarProduct);
 
     }
 
@@ -61,23 +76,12 @@ public class MinimumScalarProductTest {
     @Test
     public void findMinimunScalarProduct() {
         MinimumScalarProduct minimumScalarProduct = new MinimumScalarProduct();
-        Collection<List<Integer>> firstVector = minimumScalarProduct.findVectorPermutations("1 3 -5");
-        Collection<List<Integer>> secondVector = minimumScalarProduct.findVectorPermutations("-2 4 1");
-        assertEquals(-25, minimumScalarProduct.findMinimunScalarProduct(firstVector, secondVector));;
+        List<Integer> firstVector = minimumScalarProduct.parseVector("1 3 -5");
+        List<Integer> secondVector = minimumScalarProduct.parseVector("-2 4 1");
+        assertEquals(BigInteger.valueOf(-25), minimumScalarProduct.findMinimunScalarProduct(firstVector, secondVector));;
 
     }
-    @Test
-    public void findVectorPermutations() {
-        MinimumScalarProduct minimumScalarProduct = new MinimumScalarProduct();
-        String expectedVectorPermutations = "1,2,3\n1,3,2\n2,1,3\n2,3,1\n3,1,2\n3,2,1\n" ;
-        Collection<List<Integer>> vectorPermutations = minimumScalarProduct.findVectorPermutations("1 2 3");
 
-        for (List<Integer> vectorPermutation : vectorPermutations) {
-
-            assertThat(expectedVectorPermutations, containsString( Joiner.on(",").join(vectorPermutation) +"\n"));
-        }
-
-    }
 
     @Test
     public void parseVector() {
