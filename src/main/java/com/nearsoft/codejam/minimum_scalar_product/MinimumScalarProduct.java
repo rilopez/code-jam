@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class MinimumScalarProduct {
         int totalCases = 0;
         int testCasesCounter = 0;
         StringBuilder sb = new StringBuilder();
-
+        String firstVectorString = null;
         try (BufferedReader br = new BufferedReader(reader)) {
             String sCurrentLine;
             int vectorSize = 0;
@@ -27,11 +28,19 @@ public class MinimumScalarProduct {
                 } else {
 
                     if (testCaseLineIndex == 1) {
-                        vectorSize = Integer.parseInt(sCurrentLine);
-                    } else if (testCaseLineIndex == 2) {
-                        firstVectorPermutations = findVectorPermutations(sCurrentLine);
-                    } else if (testCaseLineIndex == 3) {
                         testCasesCounter++;
+                        System.out.println("-------------------------------------");
+                        System.out.println("testCasesCounter = " + testCasesCounter);
+                        System.out.println("-------------------------------------");
+                        vectorSize = Integer.parseInt(sCurrentLine);
+                        System.out.println("vectorSize = " + vectorSize);
+                    } else if (testCaseLineIndex == 2) {
+                        firstVectorString = sCurrentLine;
+                        System.out.println("firstVectorString = " + firstVectorString);
+                        firstVectorPermutations = findVectorPermutations(firstVectorString);
+                    } else if (testCaseLineIndex == 3) {
+                        System.out.println("secondVectorString = " + sCurrentLine);
+
                         secondVectorPermutations = findVectorPermutations(sCurrentLine);
                         int miniumnScalarProduct = findMinimunScalarProduct(firstVectorPermutations, secondVectorPermutations);
                         sb.append("Case #").append(testCasesCounter).append(": ").append(miniumnScalarProduct).append("\n");
@@ -52,6 +61,7 @@ public class MinimumScalarProduct {
     }
 
     int findMinimunScalarProduct(Collection<List<Integer>> firstVectorPermutations, Collection<List<Integer>> secondVectorPermutations) {
+        long startTime = System.currentTimeMillis();
         boolean isTheFirstCalculation = true;
         int minimunScalarProduct = 0;
         for (List<Integer> firstVectorPermutation : firstVectorPermutations) {
@@ -65,6 +75,10 @@ public class MinimumScalarProduct {
                 }
             }
         }
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.printf("findMinimunScalarProduct() , elapsedTime = %d%n", elapsedTime);
         return minimunScalarProduct;
     }
 
@@ -78,6 +92,8 @@ public class MinimumScalarProduct {
         return scalarProduct;
     }
 
+    //TAKE a look to this
+    // http://stackoverflow.com/questions/2799078/permutation-algorithm-without-recursion-java
     public Collection<List<Integer>> permute(Collection<Integer> input) {
         Collection<List<Integer>> output = new ArrayList<>();
         if (input.isEmpty()) {
@@ -100,9 +116,21 @@ public class MinimumScalarProduct {
         return output;
     }
 
-    Collection<List<Integer>> findVectorPermutations(String vectorString) {
-        List<Integer> numericVector = parseVector(vectorString);
-        return permute(numericVector);  //To change body of created methods use File | Settings | File Templates.
+    List<List<Integer>> findVectorPermutations(String vectorString) {
+        long startTime = System.currentTimeMillis();
+
+        List<List<Integer>> listOfPermutations = new ArrayList<>();
+        List<Integer> vectorIntegers = parseVector(vectorString);
+        PermUtil permutator = new PermUtil(vectorIntegers.toArray(new Integer[vectorIntegers.size()]));
+        Integer[] nextPermutation;
+        while ((nextPermutation = permutator.next()) != null) {
+            listOfPermutations.add(Arrays.asList(nextPermutation));
+        }
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.printf("findVectorPermutations(%s) - found %d permutations, elapsedTime = %d%n", vectorString, listOfPermutations.size(),elapsedTime);
+        return listOfPermutations;
     }
 
     List<Integer> parseVector(String vectorString) {

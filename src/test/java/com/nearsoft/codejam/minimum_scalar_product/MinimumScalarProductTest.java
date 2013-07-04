@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import com.google.common.base.Joiner;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,6 +16,24 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class MinimumScalarProductTest {
+
+    @Test
+    public void slowExecute() throws InvalidArgumentException {
+
+            String sampleInput = "1\n" +
+                "8\n" +
+                "-986 -926 -600 918 988 649 712 998\n" +
+                "888 901 871 703 711 514 924 -901\n"
+            ;
+            String expectedOutput = "Case #1: -952691\n";
+
+            MinimumScalarProduct minimumScalarProduct = new MinimumScalarProduct();
+            Assert.assertEquals(expectedOutput, minimumScalarProduct.execute(new StringReader(sampleInput)));
+
+
+
+    }
+
     @Test
     public void testExecute() throws Exception {
         String sampleInput = "2\n" +
