@@ -1,17 +1,14 @@
-package com.nearsoft.codejam.minimum_scalar_product;
+package com.nearsoft.codejam.round1A2008.minimum_scalar_product;
 
 import java.io.FileReader;
 import java.io.StringReader;
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import com.google.common.base.Joiner;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

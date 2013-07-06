@@ -1,15 +1,13 @@
-package com.nearsoft.codejam.minimum_scalar_product;
+package com.nearsoft.codejam.round1A2008.minimum_scalar_product;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import com.google.common.base.Joiner;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 
 public class MinimumScalarProduct {

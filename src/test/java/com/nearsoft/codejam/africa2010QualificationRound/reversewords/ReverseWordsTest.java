@@ -1,9 +1,7 @@
-package com.nearsoft.codejam.reversewords;
+package com.nearsoft.codejam.africa2010QualificationRound.reversewords;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.StringReader;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

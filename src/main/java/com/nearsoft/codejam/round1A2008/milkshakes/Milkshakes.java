@@ -1,4 +1,4 @@
-package com.nearsoft.codejam.milkshakes;
+package com.nearsoft.codejam.round1A2008.milkshakes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +44,10 @@ public class Milkshakes {
                             iCustomer++;
 
                         } while (iCustomer < mCustomers && sCurrentLine != null);
-                        List shakesBatches = prepareOrders(nShakesTypes,customerOrders);
+                        List shakesBatches = new ArrayList();
+
+                           shakesBatches.addAll( prepareOrders(nShakesTypes, customerOrders));
+
                         sb.append("Case #").append(testCasesCounter).append(": ");
                         if (shakesBatches.isEmpty()) {
                             sb.append("IMPOSSIBLE");
@@ -77,12 +80,14 @@ public class Milkshakes {
 
         for (int shakeType = 0; shakeType < nShakesTypes; shakeType++) {
             int melted = findIfSHouldBeMelted(shakeType, customerOrders);
-            if (melted < 0){
+            boolean containsKey = batch.containsKey(shakeType);
+            if (containsKey &&  batch.get(shakeType) != melted){
                break;  // impossible
-            }else{
+            }else if (!containsKey){
                 batch.put(shakeType,melted);
             }
         }
+
         List preparedOrders = new ArrayList();
         if (batch.size() == nShakesTypes){
            preparedOrders.addAll(batch.values());

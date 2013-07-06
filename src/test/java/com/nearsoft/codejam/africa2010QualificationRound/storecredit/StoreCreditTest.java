@@ -1,4 +1,4 @@
-package com.nearsoft.codejam.storecredit;
+package com.nearsoft.codejam.africa2010QualificationRound.storecredit;
 
 import java.io.FileReader;
 import java.io.StringReader;

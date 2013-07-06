@@ -1,4 +1,4 @@
-package com.nearsoft.codejam.t9spelling;
+package com.nearsoft.codejam.africa2010QualificationRound.t9spelling;
 
 import java.io.FileReader;
 import java.io.StringReader;

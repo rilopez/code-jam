@@ -1,8 +1,7 @@
-package com.nearsoft.codejam.milkshakes;
+package com.nearsoft.codejam.round1A2008.milkshakes;
 
 import java.io.FileReader;
 import java.io.StringReader;
-import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;

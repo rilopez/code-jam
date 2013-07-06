@@ -1,4 +1,4 @@
-package com.nearsoft.codejam.reversewords;
+package com.nearsoft.codejam.africa2010QualificationRound.reversewords;
 
 import java.io.BufferedReader;
 import java.io.IOException;
