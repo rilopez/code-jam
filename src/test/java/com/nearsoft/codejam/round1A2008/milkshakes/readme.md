@@ -1,3 +1,10 @@
+     (ab)(bc)(ca)
+        abc
+        (abc)(abc)(abc)
+        (zyx)bc
+
+
+
 #Problem
 https://code.google.com/codejam/contest/32016/dashboard#s=p1
 
