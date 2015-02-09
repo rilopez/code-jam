@@ -50,16 +50,7 @@ public class MinesweeperMaster {
         char[][] board = new char[rows][columns];
 
         //set the mines
-        int mineR = rows - 1;
-        int mineC = columns - 1;
-        for (int i = 0; i < numberOfMines; i++) {
-            board[mineR][mineC] = '*';
-            mineC--;
-            if (mineC < 0) {
-                mineC = columns - 1;
-                mineR--;
-            }
-        }
+        setMinesOnBoard( numberOfMines, board);
 
         //set cells without mines
         Map<Character, List<List<Integer>>> positionIndex = new HashMap<>();
@@ -90,11 +81,41 @@ public class MinesweeperMaster {
                     }
                 }
             }
-            if (allZerosAreConnected && allOtherNumbersHaveAZeroNeighbor(board)) {
-                List<Integer> firstPosition = positionsWithZero.get(0);
-                rFastWinnerClick = firstPosition.get(0);
-                cFastWinnerClick = firstPosition.get(1);
+
+            if (allZerosAreConnected){
+                boolean allNumersHasAZeroNeighbor = allOtherNumbersHaveAZeroNeighbor(board);
+                if (allNumersHasAZeroNeighbor) {
+                    List<Integer> firstPosition = positionsWithZero.get(0);
+                    rFastWinnerClick = firstPosition.get(0);
+                    cFastWinnerClick = firstPosition.get(1);
+                }else{
+                   boolean wasShifted = false;
+                    System.out.println("---before sShift:");
+                    System.out.println(printSolvedBoard(-1,-1,board));
+                   do{
+                       wasShifted = shiftColumnsOnRow( board);
+                       allNumersHasAZeroNeighbor = allOtherNumbersHaveAZeroNeighbor(board);
+                       System.out.println("---- wasShifted:"+ wasShifted);
+                       System.out.println(printSolvedBoard(-1,-1,board));
+                   }while(!allNumersHasAZeroNeighbor && wasShifted);
+
+                    if(allNumersHasAZeroNeighbor){
+                        for (int r = 0; r < board.length && (rFastWinnerClick <0 && cFastWinnerClick <0); r++) {
+                            for (int c = 0; c < board[r].length; c++) {
+                                char cell = board[r][c];
+                                if (cell == '0'){
+                                    rFastWinnerClick = r;
+                                    cFastWinnerClick = c;
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+
+                }
             }
+
         } else if (numberOfMines + 1 == rows * columns && positionIndex.values().size() > 0) {
             List<Integer> anyPosition = positionIndex.values().iterator().next().get(0);
             rFastWinnerClick = anyPosition.get(0);
@@ -102,9 +123,88 @@ public class MinesweeperMaster {
         }
 
         if (rFastWinnerClick == -1 || cFastWinnerClick == -1) {
-            return IMPOSSIBLE  + '\n' + printSolvedBoard(rFastWinnerClick, cFastWinnerClick, board);
+            return IMPOSSIBLE + '\n' + printSolvedBoard(rFastWinnerClick, cFastWinnerClick, board);
         } else {
             return printSolvedBoard(rFastWinnerClick, cFastWinnerClick, board);
+        }
+    }
+
+    private boolean shiftColumnsOnRow(char[][] board) {
+        int rFirstNumber = -1;
+        int cFirstNumber = -1;
+        for (int c = 0; c < board[0].length && (rFirstNumber <0 && cFirstNumber <0); c++) {
+            for (int r = 0; r < board.length; r++) {
+
+                char cell = board[r][c];
+                if (cell != '*'){
+                    rFirstNumber = r;
+                    cFirstNumber = c;
+                    break;
+                }
+            }
+        }
+
+        int countNumbers = 0;
+        for (int c = cFirstNumber; c < board[0].length; c++){
+            if(board[rFirstNumber][c]!='*'){
+               countNumbers++;
+            }
+        }
+        //is it space to move the numbers?
+        boolean wasShifted =false;
+        if (cFirstNumber + countNumbers < board[0].length -1){
+          char  lastChar = board[rFirstNumber][cFirstNumber];
+           board[rFirstNumber][cFirstNumber] = '*';
+          for (int c = cFirstNumber+1; c < cFirstNumber + countNumbers +1; c++){
+              char current =board[rFirstNumber][c];
+              board[rFirstNumber][c] = lastChar;
+              lastChar = current;
+          }
+          wasShifted = true;
+        }
+        return wasShifted;
+    }
+
+    private void setMinesOnBoard( int numberOfMines, char[][] board) {
+        int rows =  board.length;
+        int columns = board[0].length;
+        int mineR = rows - 1;
+        int mineC = 0;
+        int rightBorder = 0;
+        int leftBorder = 0;
+        int topBorder = 0;
+        int bottomBorder = 0;
+        char direction = 'R';
+        for (int i = 0; i < numberOfMines; i++) {
+            board[mineR][mineC] = '*';
+            if (direction == 'R' && mineC == columns - 1 - rightBorder) {
+                direction = 'U';
+                bottomBorder++;
+            } else if (direction == 'U' && mineR == topBorder) {
+                direction = 'L';
+                rightBorder ++;
+            } else if (direction == 'L' && mineC == leftBorder) {
+                direction = 'D';
+                topBorder ++;
+            } else if (direction == 'D' && mineR == rows - 1 - bottomBorder) {
+                direction = 'R';
+                leftBorder ++;
+            }
+
+            switch (direction) {
+                case 'R':
+                    mineC++;
+                    break;
+                case 'U':
+                    mineR--;
+                    break;
+                case 'L':
+                    mineC--;
+                    break;
+                case 'D':
+                    mineR++;
+                    break;
+            }
         }
     }
 
